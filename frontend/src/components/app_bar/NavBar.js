@@ -24,6 +24,7 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
+            <ButtonBar link="/" text="Home"/>
             <ButtonBar link="/articles" text="Articles"/>
         </Toolbar>
       </AppBar>
