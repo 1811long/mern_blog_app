@@ -22,10 +22,13 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            My personal blog
           </Typography>
-            <ButtonBar link="/" text="Home"/>
+          
+            <ButtonBar link="/home" text="Home"/>
             <ButtonBar link="/articles" text="Articles"/>
+            <ButtonBar link="/articles/new-article" text="Create an article"/>
+
         </Toolbar>
       </AppBar>
     </Box>

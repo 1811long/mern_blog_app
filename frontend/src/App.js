@@ -7,7 +7,14 @@ function App() {
   return (
     <>
       <Navbar/>
-      <Outlet />
+
+      <Container 
+        sx={{
+          marginTop:"20px"
+        }}
+      >   
+         <Outlet />
+      </Container>
     </>
   );
 }

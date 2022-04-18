@@ -6,15 +6,23 @@ import {
     Routes,
     Route,
   } from "react-router-dom";
-import Article from './components/articles/Article';
-
-
+import ListArticles from './components/articles/ListArticles';
+import NewArticleForm from './components/form/NewArticleForm';
+import ArticlePage from './components/articles/ArticlePage';
+import EditArticleForm from './components/form/EditArticleForm';
+import Home from './routes/Home';
 const rootNode = document.getElementById('root');
+
 ReactDOM.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App/>}>
-                <Route path="/articles" element={<Article />}/>
+                <Route index element={<Home/>}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/articles" element={<ListArticles />}/>
+                <Route path="/articles/:articleId" element={<ArticlePage />}/>
+                <Route path="/articles/new-article" element={<NewArticleForm/>}/>
+                <Route path="/articles/edit/:articleId" element={<EditArticleForm />} />
             </Route>
         </Routes>
     </BrowserRouter>, 
