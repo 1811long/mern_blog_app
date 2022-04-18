@@ -34,26 +34,33 @@ articlesRoutes.use(express.text())
 
 //Get all articles
 articlesRoutes.get('/',  async (req,res) => {
-    const articles = await ArticleModel.find({})
-    // console.log(articles)
-    res.json(articles)
+    try{
+        const articles = await ArticleModel.find({})
+        res.json(articles)
+    }catch(err){
+        res.send(err.message)
+    }
 })
 
-
 //Create an article
-articlesRoutes.post('/new-article',(req,res) =>{
+articlesRoutes.post('/new-article',async (req,res) =>{
     let newArticle = new ArticleModel(req.body)
-    newArticle.save((err,data) =>{
-        if (err) return console.log(error)
-        res.send("New article created")
-    })
+    try{
+        var createResponse = await newArticle.save()
+    }catch(err){
+        res.send(err.message)
+    }
 })
 
 //Read an article
 articlesRoutes.get('/:articleId',async (req,res) => {
     const articleId =  req.params.articleId
-    let article = await ArticleModel.findById(articleId).exec()
-    res.json(article)
+    try{
+        var article = await ArticleModel.findById(articleId).exec()
+        res.json(article)
+    }catch(err){
+        res.send(err.message)
+    }
 })
 
 
@@ -66,7 +73,7 @@ articlesRoutes.put('/edit/:articleId', async (req,res) => {
         console.log("Updated successfully")
         res.send("Updated successfully")
     }catch(err){
-        console.log(error)
+        res.send(err.message)
     }
 })
 
@@ -77,7 +84,7 @@ articlesRoutes.delete('/delete/:articleId',async (req,res) => {
         const deleteRes = await ArticleModel.deleteOne({_id:articleId})
         res.send("Deleted successfully")
     }catch(err){
-        console.log(err)
+        res.send(err.message)
     }
 })
 
