@@ -24,11 +24,10 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             My personal blog
           </Typography>
-          
+            <ButtonBar link="/login" text="Sign up"/>
             <ButtonBar link="/home" text="Home"/>
             <ButtonBar link="/articles" text="Articles"/>
             <ButtonBar link="/articles/new-article" text="Create an article"/>
-
         </Toolbar>
       </AppBar>
     </Box>

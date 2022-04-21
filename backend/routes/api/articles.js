@@ -1,9 +1,28 @@
+require('dotenv').config()
 const express = require('express')
 const articlesRoutes = express.Router()
-let Articles = require('../../articles')
-const bodyParser = require('body-parser');
-
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+
+const jwtSecret = process.env.JWT_SECRET
+
+articlesRoutes.use(express.json())
+articlesRoutes.use(express.text())
+
+function authenticateToken(req,res,next){
+    const authHeader = req.header('Authorization')
+    const token = authHeader && authHeader.split(' ')[1]
+    if (!token) {
+        res.status(401).json({msg: "No token provided"})
+        return
+    }
+    jwt.verify(token,jwtSecret, (err,user) =>{ 
+        if (err) return res.sendStatus(403).json({"msg": err})
+        req.user = user
+        next()
+    })
+}
+
 const uri = process.env.ATLAS_URI
 mongoose.connect(
         uri,
@@ -16,8 +35,6 @@ var conn = mongoose.connection
 conn.on('connected', function(){
     console.log('database is connected successfully');
 })
-
-
 const ArticleSchema = new mongoose.Schema({
     title: String,
     author: String,
@@ -26,14 +43,10 @@ const ArticleSchema = new mongoose.Schema({
 },{
     collection:'Article'
 })
-
 const ArticleModel = mongoose.model("Article", ArticleSchema)
 
-articlesRoutes.use(express.json())
-articlesRoutes.use(express.text())
-
 //Get all articles
-articlesRoutes.get('/',  async (req,res) => {
+articlesRoutes.get('/', async (req,res) => {
     try{
         const articles = await ArticleModel.find({})
         res.json(articles)
